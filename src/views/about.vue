@@ -1,6 +1,16 @@
 <template>
   <div class="about">
-    <h1>About</h1>
+    <transition
+      appear
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
+      <h1>About</h1>
+    </transition>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis error
       temporibus similique incidunt, perspiciatis et cumque a commodi placeat
@@ -23,7 +33,54 @@
 </template>
 
 <script>
-export default {};
+// import { ref } from "vue";
+import gsap from "gsap";
+export default {
+  setup() {
+    const beforeEnter = (el) => {
+      el.style.transform = "translateY(-60px)";
+      el.style.opacity = 0;
+      console.log("before enter");
+    };
+
+    const enter = (el, done) => {
+      gsap.to(el, {
+        duration: 3,
+        y: 0,
+        opacity: 1,
+        ease: "bounce.out",
+        onComplete: done,
+      });
+      console.log("enter");
+    };
+    const afterEnter = (el) => {
+      console.log("after Enter", el);
+      // el.style.color = "red";
+      // setTimeout(() => (showTitle.value = false), 2000);
+      // el.style.value
+    };
+    const beforeLeave = () => {
+      console.log("before leave");
+    };
+    const leave = () => {
+      console.log("leave");
+    };
+    const afterLeave = () => {
+      console.log("after leave");
+      // setTimeout(() => (showTitle.value = true), 1000);
+    };
+
+    return {
+      beforeEnter,
+      // showTitle,
+      afterEnter,
+      enter,
+      beforeLeave,
+      leave,
+      afterLeave,
+    };
+  },
+};
 </script>
 
 <style>
